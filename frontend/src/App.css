@@ -476,3 +476,6 @@ body {
 .takeaway-icon.down { background: rgba(255,107,107,0.15); color: #ff6b6b; }
 .takeaway-icon.alert { background: rgba(240,180,41,0.15); color: #f0b429; }
 .takeaway-icon.ok { background: rgba(74,222,128,0.15); color: #4ade80; }
+
+/*----------rank rules----------*/
+.digest-more { margin: 10px 0 0 0; font-size: 12px; color: #cbb37a; font-style: italic; }
