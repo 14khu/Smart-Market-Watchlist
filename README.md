@@ -2,8 +2,8 @@
 
 A watchlist built for Groww's "Code 2026" hackathon that answers one question every time you open it: **"What actually changed since I last checked, and does it deserve my attention?"** — instead of just re-displaying today's prices.
 
-**Live demo:** [https://smart-market-watchlist-ten.vercel.app]
-**Backend API:** [https://smart-market-watchlist-unv8.onrender.com]
+**Live demo:** https://smart-market-watchlist-ten.vercel.app
+**Backend API:** https://smart-market-watchlist-unv8.onrender.com
 
 ## The core idea
 
