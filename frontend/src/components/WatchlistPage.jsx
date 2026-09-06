@@ -98,7 +98,14 @@ export default function WatchlistPage({ onNavigate }) {
           {combined.map((s) => (
             <StockCard key={s.symbol} stock={s} onRemove={handleRemove} sparklineData={sparklines[s.symbol]} />
           ))}
-          <div className="add-tile" onClick={() => setShowAddTile(true)}>
+          <div
+          className="add-tile"
+          onClick={() => {
+            const el = document.getElementById('stock-search-input');
+            el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el?.focus();
+            }}
+>
             <span className="add-tile-icon">+</span>
             <span className="add-tile-label">Add a new stock</span>
             <span className="add-tile-sub">Start tracking to get insights →</span>

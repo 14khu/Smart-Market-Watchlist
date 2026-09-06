@@ -42,6 +42,7 @@ export default function AddStockForm({ onAdd }) {
     <div className="add-stock-wrapper">
       <input
         type="text"
+        id="stock-search-input"
         className="add-stock-input"
         placeholder="Search for a stock — e.g. Reliance, TCS, Infosys"
         value={query}
