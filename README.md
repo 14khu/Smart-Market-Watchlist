@@ -2,8 +2,8 @@
 
 A watchlist built for Groww's "Code 2026" hackathon that answers one question every time you open it: **"What actually changed since I last checked, and does it deserve my attention?"** — instead of just re-displaying today's prices.
 
-**Live demo:** [https://smart-market-watchlist-ten.vercel.app]
-**Backend API:** [https://smart-market-watchlist-unv8.onrender.com]
+**Live demo:** https://smart-market-watchlist-ten.vercel.app
+**Backend API:** https://smart-market-watchlist-unv8.onrender.com
 
 ## The core idea
 
@@ -19,25 +19,28 @@ Most watchlists show you a flat list of prices. This one remembers exactly what 
 
 ## Architecture
 
-React (Vite) frontend
-│ REST + JWT
-Node/Express backend
-├── Watchlist CRUD (RLS-protected)
-├── Price cache + stale-fallback layer
-├── Background poller (accumulates price history)
-├── Change-detection engine (significance scoring)
-└── /watchlist/digest, /news, /watchlist/sparklines
-Supabase (Postgres + Auth)
-├── watchlist_items
-├── price_snapshots (append-only history)
-└── user_watchlist_meta (last_viewed_at per user)
+A simple, focused monolith. No microservices, no message queues — just a clean separation of concerns.
+
+```
+React (Vite) frontend  ──HTTP+JWT──▶  Express backend  ──▶  Supabase (Postgres + Auth)
+                                            │
+                        ┌───────────────────┼───────────────────┐
+                        ▼                   ▼                   ▼
+                  Watchlist CRUD     Price cache +        Change-detection
+                  (RLS-protected)    stale-fallback         engine
+                                     layer                (significance scoring)
+                                            │                    │
+                                            ▼                    ▼
+                                   Background poller      Explainable digest
+                                   (accumulates            (/watchlist/digest)
+                                    price history)
+```
 
 
 ## Edge cases handled
 
 - **Stale/delayed data:** cache-miss fallback serves the last known snapshot with a "stale" badge rather than failing.
-- **Race conditions:** `price_snapshots` is append-only, and every read always takes the row with the latest `fetched_at` — so a delayed or out-of-order write can never be mistaken for "current," even if the background poller and an on-demand fetch land close together.
-- **New symbols with no history:** the significance engine falls back to a sensible default baseline (1.5%) until enough real snapshots accumulate.
+- **Race conditions:** `price_snapshots` is append-only, and every read always takes the row with the latest `fetched_at` — so a delayed or out-of-order wricance engine falls back to a sensible default baseline (1.5%) until enough real snapshots accumulate.
 
 ## What I'd add with more time
 
